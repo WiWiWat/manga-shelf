@@ -1,16 +1,113 @@
-# React + Vite
+# 📚 Manga Shelf — ชั้นหนังสือมังงะของคุณ
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+เว็บค้นหาและจดบันทึกมังงะที่อ่าน ทำด้วย React ใช้ข้อมูลมังงะจาก [AniList](https://anilist.co)
+และใช้ [Supabase](https://supabase.com) เป็นฐานข้อมูลและระบบสมาชิก
+เก็บมังงะไว้บนชั้นของตัวเองแยกตามสถานะ (กำลังอ่าน / อยากอ่าน / อ่านจบ) และจดว่าอ่านถึงตอนไหนแล้ว
 
-Currently, two official plugins are available:
+🌐 **เว็บจริง:** https://manga-shelf-kappa.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ฟีเจอร์
 
-## React Compiler
+- **หน้าแรก:** มังงะคะแนนสูงสุด 24 เรื่อง พร้อมปก คะแนน และจำนวนตอน
+- **ค้นหา:** ช่องค้นหาบนแถบด้านบนทุกหน้า ค้นจากชื่อเรื่อง (อังกฤษ/ญี่ปุ่น) และกรองตาม 17 หมวด
+  - คำค้นและหมวดเก็บไว้ใน URL เช่น `/search?q=love&genre=Romance` กดย้อนกลับได้ และแชร์ลิงก์ได้
+- **หน้ารายละเอียด:** ปก ชื่ออังกฤษ/ญี่ปุ่น หมวด คะแนน สถานะ จำนวนตอน/เล่ม ปีที่เริ่ม และเรื่องย่อ (ภาษาอังกฤษ)
+- **สมาชิก:** สมัคร (ยืนยันอีเมล) / เข้าสู่ระบบ / ลืมรหัสผ่าน / ตั้งรหัสผ่านใหม่
+- **บัญชีของฉัน:** แก้ชื่อ เปลี่ยนรหัสผ่าน ออกจากระบบ
+- **ชั้นหนังสือของฉัน (`/shelf`):**
+  - เพิ่มมังงะเข้าชั้นจากหน้ารายละเอียด เลือกสถานะได้ 3 แบบ
+  - กด + / − จดตอนที่อ่าน พร้อมแถบความคืบหน้า
+  - เปลี่ยนสถานะให้เอง: เริ่มอ่านเรื่องที่ "อยากอ่าน" → "กำลังอ่าน", อ่านครบทุกตอน → "อ่านจบ"
+  - แยกแท็บตามสถานะ พร้อมจำนวนเรื่องในแต่ละแท็บ
+  - แต่ละคนเห็นและแก้ได้เฉพาะชั้นของตัวเอง (ตรวจในฐานข้อมูลด้วย Row Level Security)
+- ไม่แสดงเนื้อหาผู้ใหญ่ และใช้งานบนมือถือได้
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## เทคโนโลยีที่ใช้
 
-## Expanding the Oxlint configuration
+- [React](https://react.dev) + [Vite](https://vite.dev)
+- [React Router](https://reactrouter.com) — เปลี่ยนหน้าตาม URL
+- [Tailwind CSS](https://tailwindcss.com) — จัดหน้าตาเว็บ (ธีมมืด)
+- [AniList GraphQL API](https://docs.anilist.co) — ข้อมูลมังงะ (ฟรี ไม่ต้องมี key)
+- [Supabase](https://supabase.com) — ฐานข้อมูล PostgreSQL + ระบบสมาชิก (Auth) + กฎสิทธิ์ (Row Level Security)
+- ฟอนต์ Prompt จาก Google Fonts
+- ขึ้นเว็บด้วย [Vercel](https://vercel.com)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## วิธีรัน
+
+ต้องมี [Node.js](https://nodejs.org) เวอร์ชัน 20.19 / 22.12 ขึ้นไป และตั้งค่า Supabase ตามหัวข้อถัดไปก่อน
+
+```bash
+npm install      # ติดตั้งไลบรารี (ทำครั้งแรกครั้งเดียว)
+npm run dev      # เปิดเว็บสำหรับพัฒนา ที่ http://localhost:5173
+npm run build    # สร้างไฟล์เว็บสำหรับเอาขึ้นจริง (อยู่ในโฟลเดอร์ dist)
+npm run lint     # ตรวจโค้ดด้วย Oxlint
+```
+
+> 💡 ถ้าแก้โค้ดแล้วหน้าเว็บไม่เปลี่ยน หรือขึ้นหน้าขาว ให้กด **Ctrl + Shift + R**
+> (บางครั้ง Vite อัปเดตไม่ทันตอนแก้หลายไฟล์ติดกันเร็วๆ)
+
+## ตั้งค่า Supabase
+
+1. สร้างโปรเจกต์ที่ [supabase.com](https://supabase.com) (Region แนะนำ: Southeast Asia (Singapore))
+2. **สร้างตาราง:** เปิด SQL Editor → New query แล้วรันไฟล์ใน `supabase/migrations/` **ทีละไฟล์ตามลำดับเลข** (แต่ละไฟล์รันครั้งเดียว)
+   | ไฟล์ | สิ่งที่ทำ |
+   |---|---|
+   | `001_shelf_items.sql` | ตารางชั้นหนังสือ + กฎสิทธิ์ (เห็น/แก้ได้เฉพาะของตัวเอง) |
+3. **ตั้งค่าการสมัคร:** Authentication → Sign In / Providers
+   - Email provider: เปิด
+   - Confirm email: **เปิด** (ปิดได้ชั่วคราวระหว่างพัฒนา แต่ต้องเปิดก่อนใช้งานจริง)
+   - Minimum password length: 8 (ให้ตรงกับหน้าสมัคร)
+4. **ลิงก์ในอีเมล:** Authentication → URL Configuration
+   - Site URL = ลิงก์เว็บจริง
+   - Redirect URLs = `http://localhost:5173/**` และ `https://ลิงก์เว็บจริง/**`
+     (ให้ลิงก์ยืนยันอีเมลและลิงก์ลืมรหัสผ่านพากลับมาเว็บได้ — `/**` = ทุกหน้าในเว็บนั้น)
+5. คัดลอกไฟล์ `.env.example` เป็น `.env.local`
+6. ใส่ **Project URL** และ **publishable key** จาก Project Settings → API Keys ลงใน `.env.local`
+7. รัน `npm run dev` ใหม่ (Vite อ่านไฟล์ `.env` เฉพาะตอนเริ่ม)
+
+> ⚠️ ใช้เฉพาะ **publishable key** ในเว็บ ห้ามใส่ secret / service_role key
+> และ `.env.local` ไม่ถูกส่งขึ้น GitHub (อยู่ใน `.gitignore` แล้ว)
+
+## เอาเว็บขึ้นออนไลน์ (Vercel)
+
+ใช้แผน **Hobby** (ฟรี สำหรับใช้ส่วนตัว ไม่ต้องใส่บัตรเครดิต)
+
+1. สมัคร [vercel.com](https://vercel.com) ด้วยบัญชี GitHub → **Add New → Project** → เลือก repo นี้
+   (ถ้าไม่เห็น repo: กด **Adjust GitHub App Permissions** แล้วเพิ่ม repo นี้ให้ Vercel เข้าถึง)
+2. Vercel รู้เองว่าเป็นโปรเจกต์ Vite (build: `npm run build`, output: `dist`) ไม่ต้องแก้
+3. **Environment Variables:** ใส่ `VITE_SUPABASE_URL` และ `VITE_SUPABASE_PUBLISHABLE_KEY` (ค่าเดียวกับใน `.env.local`) → **Deploy**
+4. เอาลิงก์ Vercel ที่ได้ไปใส่ใน Supabase ตามข้อ 4 ของหัวข้อ "ตั้งค่า Supabase"
+
+หลังจากนี้ทุกครั้งที่ merge เข้า `main` Vercel จะ deploy เวอร์ชันใหม่ให้อัตโนมัติ
+และทุก Pull Request จะได้ลิงก์ Preview ไว้ลองก่อน merge
+
+> 💡 `vercel.json` ตั้งให้ทุก URL เปิด `index.html` — เว็บเป็นแบบหน้าเดียว (SPA) ถ้าไม่มีไฟล์นี้
+> การเปิดลิงก์อย่าง `/manga/30002` ตรงๆ หรือกด F5 ในหน้าย่อยจะได้ 404
+
+## โครงสร้างโปรเจกต์
+
+```
+src/
+├── components/   ส่วนประกอบที่ใช้ซ้ำ (เมนูด้านบน, การ์ดมังงะ, กล่องชั้นหนังสือ, ฟอร์มรหัสผ่าน, AuthProvider)
+├── pages/        หน้าเว็บแต่ละหน้า (หน้าแรก, ค้นหา, รายละเอียด, ชั้นหนังสือ, บัญชี, เข้าสู่ระบบ, สมัคร, ลืมรหัสผ่าน, 404)
+├── lib/          ตัวเชื่อมต่อภายนอก: AniList (anilist.js), Supabase (supabase.js), ตารางชั้นหนังสือ (shelf.js)
+├── utils/        ฟังก์ชันช่วย (ข้อมูลมังงะ/หมวด/สถานะ, ระบบสมาชิก, ตรวจฟอร์มและสไตล์ที่ใช้ซ้ำ)
+├── App.jsx       กำหนดว่า URL ไหนแสดงหน้าไหน
+└── index.css     ตั้งค่า Tailwind (ฟอนต์, สีพื้นหลัง)
+
+supabase/
+└── migrations/   คำสั่ง SQL สร้างตารางและกฎสิทธิ์ (รันตามลำดับเลข)
+```
+
+## ข้อจำกัดตอนนี้
+
+- เรื่องย่อเป็นภาษาอังกฤษ (AniList ยังไม่มีภาษาไทย) และค้นหาด้วยชื่อภาษาไทยไม่ได้
+- AniList จำกัดการเรียกประมาณ 30 ครั้ง/นาที ถ้าค้นหาถี่มากจะขึ้น "เรียกข้อมูลถี่เกินไป" ให้รอสักครู่
+- หน้าแรกและผลค้นหาแสดงแค่ 24 เรื่อง (ยังไม่มีปุ่มโหลดเพิ่ม)
+- ชื่อ ปก และจำนวนตอนบนชั้นหนังสือเป็นค่าตอนที่กดเพิ่ม ถ้าเรื่องที่ยังไม่จบมีตอนใหม่ ตัวเลขบนชั้นจะไม่อัปเดตเอง
+- Supabase แผนฟรีส่งอีเมล (ยืนยัน/ลืมรหัสผ่าน) ได้ไม่กี่ฉบับต่อชั่วโมง
+
+## เครดิต
+
+ข้อมูลและปกมังงะจาก [AniList](https://anilist.co) — ลิขสิทธิ์ปกเป็นของสำนักพิมพ์และผู้เขียนแต่ละเรื่อง
+เว็บนี้ไม่มีเนื้อหาการ์ตูนให้อ่าน มีแค่ข้อมูลไว้ค้นหาและจดบันทึกการอ่าน
