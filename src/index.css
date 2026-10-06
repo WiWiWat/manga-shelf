@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* ตั้งค่าธีมของ Tailwind: ฟอนต์หลักของเว็บ */
+@theme {
+  --font-sans: "Prompt", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+  }
+}
