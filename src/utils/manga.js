@@ -16,6 +16,28 @@ export const STATUS_LABELS = {
   HIATUS: 'พักการตีพิมพ์',
 }
 
+// หมวดที่ให้เลือกกรองในหน้าค้นหา: ชื่อที่ AniList ใช้ → ชื่อภาษาไทย
+// (ไม่ใส่หมวดเนื้อหาผู้ใหญ่)
+export const GENRES = {
+  Action: 'แอ็กชัน',
+  Adventure: 'ผจญภัย',
+  Comedy: 'ตลก',
+  Drama: 'ดราม่า',
+  Fantasy: 'แฟนตาซี',
+  Horror: 'สยองขวัญ',
+  'Mahou Shoujo': 'สาวน้อยเวทมนตร์',
+  Mecha: 'หุ่นยนต์',
+  Music: 'ดนตรี',
+  Mystery: 'ลึกลับ',
+  Psychological: 'จิตวิทยา',
+  Romance: 'โรแมนซ์',
+  'Sci-Fi': 'ไซไฟ',
+  'Slice of Life': 'ชีวิตประจำวัน',
+  Sports: 'กีฬา',
+  Supernatural: 'เหนือธรรมชาติ',
+  Thriller: 'ระทึกขวัญ',
+}
+
 // ใช้ชื่อภาษาอังกฤษถ้ามี ไม่มีก็ใช้ชื่อญี่ปุ่นแบบตัวอักษรโรมัน
 export function getTitle(manga) {
   return manga.title.english || manga.title.romaji
