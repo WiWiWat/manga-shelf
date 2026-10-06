@@ -52,6 +52,28 @@ export async function getTopManga(perPage = 24) {
   return data.Page.media
 }
 
+// ค้นหามังงะจากชื่อ และ/หรือ กรองตามหมวด
+// ส่ง null = ไม่กรองช่องนั้น (AniList จะข้ามไปเอง)
+export async function searchManga({ search, genre, perPage = 24 }) {
+  const query = `
+    query ($search: String, $genre: String, $sort: [MediaSort], $perPage: Int) {
+      Page(perPage: $perPage) {
+        media(type: MANGA, search: $search, genre: $genre, sort: $sort, isAdult: false) {
+          ${CARD_FIELDS}
+        }
+      }
+    }
+  `
+  const data = await request(query, {
+    search: search || null,
+    genre: genre || null,
+    // มีคำค้นหา = เรียงตามความตรงกับคำค้น / ไม่มี = เรียงตามความนิยม
+    sort: search ? ['SEARCH_MATCH'] : ['POPULARITY_DESC'],
+    perPage,
+  })
+  return data.Page.media
+}
+
 // รายละเอียดมังงะ 1 เรื่อง — ถ้าไม่มี id นี้ (หรือเป็นเนื้อหาผู้ใหญ่) จะได้ null
 export async function getMangaById(id) {
   const query = `
