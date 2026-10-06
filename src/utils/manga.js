@@ -16,6 +16,20 @@ export const STATUS_LABELS = {
   HIATUS: 'พักการตีพิมพ์',
 }
 
+// สถานะบนชั้นหนังสือ (ต้องตรงกับ check ในตาราง shelf_items)
+export const SHELF_STATUS = {
+  reading: { label: 'กำลังอ่าน', emoji: '📖' },
+  planned: { label: 'อยากอ่าน', emoji: '🔖' },
+  completed: { label: 'อ่านจบ', emoji: '✅' },
+}
+
+// เปลี่ยนสถานะแล้ว ตอนที่อ่านควรเป็นเท่าไร
+// อ่านจบ = ครบทุกตอน (ถ้ารู้จำนวน) / อื่นๆ = เท่าเดิม
+export function progressForStatus(item, status) {
+  if (status === 'completed' && item.total_chapters) return item.total_chapters
+  return item.progress
+}
+
 // หมวดที่ให้เลือกกรองในหน้าค้นหา: ชื่อที่ AniList ใช้ → ชื่อภาษาไทย
 // (ไม่ใส่หมวดเนื้อหาผู้ใหญ่)
 export const GENRES = {

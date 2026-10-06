@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { getDisplayName, getInitial, useAuth } from '../utils/auth.js'
 
 function Navbar() {
@@ -50,6 +50,22 @@ function Navbar() {
 
           {/* บัญชี: ล็อกอินแล้ว = วงกลมตัวอักษรแรกของชื่อ / ยังไม่ล็อกอิน = ปุ่มเข้าสู่ระบบ
               (ระหว่างเช็กสถานะตอนเปิดเว็บ ยังไม่แสดงอะไร กันปุ่มกระพริบ) */}
+          {/* ชั้นหนังสือ: แสดงเฉพาะตอนล็อกอินแล้ว (มือถือโชว์แค่ไอคอน) */}
+          {user && (
+            <NavLink
+              to="/shelf"
+              aria-label="ชั้นหนังสือของฉัน"
+              className={({ isActive }) =>
+                `shrink-0 rounded-lg px-2 py-1.5 text-sm font-medium transition sm:px-3 ${
+                  isActive ? 'bg-slate-800 text-rose-400' : 'text-slate-300 hover:bg-slate-800'
+                }`
+              }
+            >
+              <span aria-hidden="true">📚</span>
+              <span className="hidden sm:inline"> ชั้นของฉัน</span>
+            </NavLink>
+          )}
+
           {loading ? null : user ? (
             <Link
               to="/profile"

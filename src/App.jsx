@@ -9,6 +9,7 @@ import Signup from './pages/Signup.jsx'
 import ForgotPassword from './pages/ForgotPassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 import Profile from './pages/Profile.jsx'
+import MyShelf from './pages/MyShelf.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/shelf" element={<MyShelf />} />
           {/* path="*" = URL อื่นๆ ที่ไม่ตรงกับข้างบน */}
           <Route path="*" element={<NotFound />} />
         </Routes>

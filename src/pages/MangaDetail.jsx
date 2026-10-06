@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getMangaById } from '../lib/anilist.js'
+import ShelfControls from '../components/ShelfControls.jsx'
 import {
   FORMAT_LABELS,
   STATUS_LABELS,
@@ -105,6 +106,10 @@ function MangaDetail() {
               </div>
             ))}
           </dl>
+
+          <div className="mt-5">
+            <ShelfControls manga={manga} />
+          </div>
 
           <h2 className="mt-6 text-lg font-semibold">เรื่องย่อ</h2>
           {/* whitespace-pre-line = ขึ้นบรรทัดใหม่ตามข้อความจริง */}
