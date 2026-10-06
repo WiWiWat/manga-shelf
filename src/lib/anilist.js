@@ -18,7 +18,8 @@ async function request(query, variables = {}) {
   if (res.status === 429) {
     throw new Error('เรียกข้อมูลถี่เกินไป รอสักครู่แล้วลองใหม่')
   }
-  if (!res.ok) {
+  // 404 = ไม่มีข้อมูลนี้ (เช่น id มังงะที่ไม่มีอยู่จริง) — ไม่ถือว่าพัง ให้หน้าเว็บจัดการเอง
+  if (!res.ok && res.status !== 404) {
     throw new Error('โหลดข้อมูลไม่สำเร็จ')
   }
   const json = await res.json()
@@ -49,4 +50,26 @@ export async function getTopManga(perPage = 24) {
   `
   const data = await request(query, { perPage })
   return data.Page.media
+}
+
+// รายละเอียดมังงะ 1 เรื่อง — ถ้าไม่มี id นี้ (หรือเป็นเนื้อหาผู้ใหญ่) จะได้ null
+export async function getMangaById(id) {
+  const query = `
+    query ($id: Int) {
+      Media(id: $id, type: MANGA) {
+        ${CARD_FIELDS}
+        title { native }
+        description(asHtml: false)
+        genres
+        volumes
+        startDate { year }
+        bannerImage
+        isAdult
+      }
+    }
+  `
+  const data = await request(query, { id: Number(id) })
+  const manga = data.Media
+  if (!manga || manga.isAdult) return null
+  return manga
 }
