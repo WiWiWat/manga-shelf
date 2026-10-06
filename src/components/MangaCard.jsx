@@ -1,21 +1,12 @@
-// แปลงประเภทจาก AniList เป็นคำที่อ่านง่าย
-const FORMAT_LABELS = {
-  MANGA: 'มังงะ',
-  NOVEL: 'นิยาย',
-  ONE_SHOT: 'ตอนเดียวจบ',
-}
+import { Link } from 'react-router-dom'
+import { FORMAT_LABELS, getTitle, getChapterText } from '../utils/manga.js'
 
-// การ์ดมังงะ 1 เรื่อง: ปก + ชื่อ + คะแนน
+// การ์ดมังงะ 1 เรื่อง: ปก + ชื่อ + คะแนน — กดแล้วไปหน้ารายละเอียด
 function MangaCard({ manga }) {
-  // ใช้ชื่อภาษาอังกฤษถ้ามี ไม่มีก็ใช้ชื่อญี่ปุ่นแบบตัวอักษรโรมัน
-  const title = manga.title.english || manga.title.romaji
-
-  let chapterText = '-'
-  if (manga.chapters) chapterText = `${manga.chapters} ตอน`
-  else if (manga.status === 'RELEASING') chapterText = 'ยังไม่จบ'
+  const title = getTitle(manga)
 
   return (
-    <div className="group">
+    <Link to={`/manga/${manga.id}`} className="group block">
       <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-slate-800">
         <img
           src={manga.coverImage.extraLarge}
@@ -34,9 +25,9 @@ function MangaCard({ manga }) {
         {title}
       </h3>
       <p className="text-xs text-slate-400">
-        {FORMAT_LABELS[manga.format] || manga.format} · {chapterText}
+        {FORMAT_LABELS[manga.format] || manga.format} · {getChapterText(manga)}
       </p>
-    </div>
+    </Link>
   )
 }
 
